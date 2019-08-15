@@ -26,7 +26,7 @@ func WindowsAPICall(module string, function string, params ...uintptr) (ret int3
 	r0, _, err := syscall.Syscall6(functionAddr, uintptr(numberOfParams), params[0], params[1], params[2], params[3], params[4], params[5])
 	ret = int32(r0)
 	if ret == 0 {
-		return int32(-1), err
+		return ret, err
 	}
 
 	return ret, nil
