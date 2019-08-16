@@ -1,7 +1,6 @@
 package antidbg
 
 import (
-	"errors"
 	"fmt"
 	"unsafe"
 
@@ -34,7 +33,7 @@ func NtQueryInformationProcess() (debugged bool, err error) {
 		uintptr(0),
 	)
 	if ntstatus != 0 {
-		return false, errors.New(fmt.Sprint(ntstatus))
+		return false, fmt.Errorf("NTSTATUS: %x", ntstatus)
 	}
 	return processDebugPort == -1, nil
 }
