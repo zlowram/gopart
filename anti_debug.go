@@ -8,11 +8,16 @@ import (
 	windows "github.com/zlowram/gowin"
 )
 
+// Same as antivm. I would move these functions to a new package called
+// antidbg (github.com/zlowram/gopart/antidbg).
+
+// Missing docs.
 func BeingDebugged() bool {
 	peb := windows.PebAddress()
 	return peb.BeingDebugged == 1
 }
 
+// Missing docs.
 func NtQueryInformationProcess() (debugged bool, err error) {
 	handle, err := WindowsAPICall(
 		"kernel32.dll",
@@ -33,6 +38,7 @@ func NtQueryInformationProcess() (debugged bool, err error) {
 		uintptr(0),
 	)
 	if ntstatus != 0 {
+		// use fmt.Errorf() here
 		return false, errors.New(fmt.Sprint(ntstatus))
 	}
 	return processDebugPort == -1, nil

@@ -7,6 +7,14 @@ import (
 	windows "github.com/zlowram/gowin"
 )
 
+// I don't like this naming. When called it looks like
+// gowin.NumberOfProcessors(), which seems to return the number of processors.
+// I would move these functions to a new package called "antivm" within gopart
+// (github.com/zlowram/gopart/antivm). So, when called it would look like
+// antivm.NumberOfProcessors() or antivm.PhysicalMemory() which makes much more
+// sense to me.
+
+// Missing docs.
 func NumberOfProcessors() (ret bool, err error) {
 	var systemInfo windows.SystemInfo
 	_, err = WindowsAPICall(
@@ -17,6 +25,7 @@ func NumberOfProcessors() (ret bool, err error) {
 	return systemInfo.NumberOfProcessors < 2, nil
 }
 
+// Missing docs.
 func PhysicalMemory() (ret bool, err error) {
 	var memory windows.MemoryStatusEx
 	memory.Length = uint32(unsafe.Sizeof(memory))

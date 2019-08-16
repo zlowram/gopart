@@ -8,6 +8,7 @@ import (
 	windows "github.com/zlowram/gowin"
 )
 
+// Missing docs.
 func WindowsAPICall(module string, function string, params ...uintptr) (ret int32, err error) {
 	// Get the function address
 	functionAddr, err := windowsAPIFunction(module, function)
@@ -68,6 +69,8 @@ func loadModule(name string) (module *windows.Module, err error) {
 	r0, _, err := syscall.Syscall(uintptr(loadLibrary.Addr), 1, uintptr(unsafe.Pointer(moduleToLoad.Buffer)), 0, 0)
 	addr := uint64(r0)
 	if addr == 0 {
+		// Never print in a package (unless you export a log.Logger)
+		// Have you forgotten returning with error here?
 		fmt.Println(err)
 	}
 
