@@ -1,7 +1,6 @@
 package gopart
 
 import (
-	"fmt"
 	"syscall"
 	"unsafe"
 
@@ -68,7 +67,7 @@ func loadModule(name string) (module *windows.Module, err error) {
 	r0, _, err := syscall.Syscall(uintptr(loadLibrary.Addr), 1, uintptr(unsafe.Pointer(moduleToLoad.Buffer)), 0, 0)
 	addr := uint64(r0)
 	if addr == 0 {
-		fmt.Println(err)
+		return nil, err
 	}
 
 	return windows.NewModule(name, addr), nil
