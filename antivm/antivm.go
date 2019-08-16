@@ -1,15 +1,16 @@
-package gopart
+package antivm
 
 import (
 	"math"
 	"unsafe"
 
+	"github.com/zlowram/gopart"
 	windows "github.com/zlowram/gowin"
 )
 
 func NumberOfProcessors() (ret bool, err error) {
 	var systemInfo windows.SystemInfo
-	_, err = WindowsAPICall(
+	_, err = gopart.WindowsAPICall(
 		"kernel32.dll",
 		"GetSystemInfo",
 		uintptr(unsafe.Pointer(&systemInfo)),
@@ -20,7 +21,7 @@ func NumberOfProcessors() (ret bool, err error) {
 func PhysicalMemory() (ret bool, err error) {
 	var memory windows.MemoryStatusEx
 	memory.Length = uint32(unsafe.Sizeof(memory))
-	_, err = WindowsAPICall(
+	_, err = gopart.WindowsAPICall(
 		"kernel32.dll",
 		"GlobalMemoryStatusEx",
 		uintptr(unsafe.Pointer(&memory)),

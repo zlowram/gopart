@@ -1,10 +1,11 @@
-package gopart
+package antidbg
 
 import (
 	"errors"
 	"fmt"
 	"unsafe"
 
+	"github.com/zlowram/gopart"
 	windows "github.com/zlowram/gowin"
 )
 
@@ -14,7 +15,7 @@ func BeingDebugged() bool {
 }
 
 func NtQueryInformationProcess() (debugged bool, err error) {
-	handle, err := WindowsAPICall(
+	handle, err := gopart.WindowsAPICall(
 		"kernel32.dll",
 		"GetCurrentProcess",
 	)
@@ -23,7 +24,7 @@ func NtQueryInformationProcess() (debugged bool, err error) {
 	}
 
 	var processDebugPort int
-	ntstatus, err := WindowsAPICall(
+	ntstatus, err := gopart.WindowsAPICall(
 		"ntdll.dll",
 		"NtQueryInformationProcess",
 		uintptr(handle),
