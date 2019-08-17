@@ -1,6 +1,7 @@
 package gopart
 
 import (
+	"errors"
 	"syscall"
 	"unsafe"
 
@@ -60,10 +61,10 @@ func loadModule(name string) (module *windows.Module, err error) {
 
 	// Call to LoadLibraryW to load the module
 	moduleToLoad := windows.NewUnicodeString(name)
-	r0, _, err := syscall.Syscall(uintptr(loadLibrary.Addr), 1, uintptr(unsafe.Pointer(moduleToLoad.Buffer)), 0, 0)
+	r0, _, _ := syscall.Syscall(uintptr(loadLibrary.Addr), 1, uintptr(unsafe.Pointer(moduleToLoad.Buffer)), 0, 0)
 	addr := uint64(r0)
 	if addr == 0 {
-		return nil, err
+		return nil, errors.New("Gopart.loadModule: error loading module")
 	}
 
 	return windows.NewModule(name, addr), nil
