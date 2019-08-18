@@ -28,19 +28,26 @@ func (w *WindowsApi) Call(module string, function string, params ...uintptr) (re
 
 	// Fill non-used parameters with 0's
 	numberOfParams := len(params)
-	additionalParams := 6 - numberOfParams
+	additionalParams := 9 - numberOfParams
 	for i := 0; i < additionalParams; i++ {
 		params = append(params, 0)
 	}
 
 	// Call the function
-	r0, _, err := syscall.Syscall6(functionAddr, uintptr(numberOfParams), params[0], params[1], params[2], params[3], params[4], params[5])
-	ret = int32(r0)
-	if ret == 0 {
-		return ret, err
-	}
+	r0, _, err := syscall.Syscall9(functionAddr,
+		uintptr(numberOfParams),
+		params[0],
+		params[1],
+		params[2],
+		params[3],
+		params[4],
+		params[5],
+		params[6],
+		params[7],
+		params[8],
+	)
 
-	return ret, nil
+	return int32(r0), err
 }
 
 func (w *WindowsApi) windowsAPIFunction(moduleName, functionName string) (addr uintptr, err error) {

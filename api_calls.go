@@ -17,13 +17,24 @@ func WindowsAPICall(module string, function string, params ...uintptr) (ret int3
 
 	// Fill non-used parameters with 0's
 	numberOfParams := len(params)
-	additionalParams := 6 - numberOfParams
+	additionalParams := 9 - numberOfParams
 	for i := 0; i < additionalParams; i++ {
 		params = append(params, 0)
 	}
 
 	// Call the function
-	r0, _, err := syscall.Syscall6(functionAddr, uintptr(numberOfParams), params[0], params[1], params[2], params[3], params[4], params[5])
+	r0, _, err := syscall.Syscall9(functionAddr,
+		uintptr(numberOfParams),
+		params[0],
+		params[1],
+		params[2],
+		params[3],
+		params[4],
+		params[5],
+		params[6],
+		params[7],
+		params[8],
+	)
 
 	return int32(r0), err
 }
